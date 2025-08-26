@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sparkle - Jewellery, Stickers & Stationery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function addToCart(product) {
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(product + " added to cart!");
+      document.getElementById("cart-count").innerText = cart.length;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("cart-count").innerText = cart.length;
+    });
+
+    window.addEventListener("scroll", function () {
+      const navbar = document.getElementById("navbar");
+      if (window.scrollY > 50) {
+        navbar.classList.add("bg-pink-500", "shadow-xl");
+        navbar.classList.remove("bg-white");
+      } else {
+        navbar.classList.remove("bg-pink-500", "shadow-xl");
+        navbar.classList.add("bg-white");
+      }
+    });
+
+    // Fake buyer notifications
+    const buyers = ["Ayesha", "Ali", "Sara", "Ahmed", "Zara", "Hassan"];
+    const items = ["notebook", "sticker pack", "jewellery set", "eraser", "bracelet", "pen"];
+    
+    function showNotification() {
+      const buyer = buyers[Math.floor(Math.random() * buyers.length)];
+      const item = items[Math.floor(Math.random() * items.length)];
+      const notification = document.createElement("div");
+      notification.className = "fixed bottom-5 right-5 bg-white shadow-lg border border-pink-400 px-4 py-2 rounded-lg text-sm text-gray-700 animate-slide-in";
+      notification.innerText = `✨ ${buyer} just bought a ${item}!`;
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        notification.remove();
+      }, 4000);
+    }
+
+    // Show notification every 10s
+    setInterval(showNotification, 10000);
+  </script>
+  <style>
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .animate-slide-in {
+      animation: slideIn 0.6s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-pink-50 to-purple-100 font-sans text-gray-800">
+
+  <!-- Navbar -->
+  <nav id="navbar" class="fixed w-full top-0 left-0 bg-white shadow-lg p-4 flex justify-between items-center transition-all duration-300 z-50">
+    <h1 class="text-2xl font-bold text-pink-600">✨ Sparkle</h1>
+    <ul class="flex gap-6 font-medium">
+      <li><a href="#hero" class="hover:text-pink-400">Home</a></li>
+      <li><a href="shop.html" class="hover:text-pink-400">Shop</a></li>
+      <li><a href="#about" class="hover:text-pink-400">About</a></li>
+      <li><a href="#reviews" class="hover:text-pink-400">Reviews</a></li>
+      <li><a href="#newsletter" class="hover:text-pink-400">Subscribe</a></li>
+      <li><a href="checkout.html">🛒 <span id="cart-count">0</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative text-center py-32 px-4 bg-gradient-to-r from-pink-200 via-purple-200 to-pink-100 overflow-hidden">
+    <h2 class="text-5xl md:text-6xl font-extrabold text-pink-600 animate-bounce z-10 relative">Shine with Sparkle ✨</h2>
+    <p class="mt-6 text-lg md:text-xl max-w-2xl mx-auto z-10 relative">Beautiful Jewellery, Cute Stickers, and Elegant Stationery – All in One Place!</p>
+    <a href="shop.html" class="mt-8 inline-block bg-pink-500 text-white px-8 py-4 rounded-lg shadow-lg hover:bg-pink-600 transition-all duration-300 z-10 relative">Shop Now</a>
+  </section>
+
+  <!-- About Us -->
+  <section id="about" class="py-20 px-6 text-center bg-white shadow-inner">
+    <h3 class="text-4xl font-bold text-pink-600 mb-6">About Us</h3>
+    <p class="max-w-3xl mx-auto text-lg text-gray-700">
+      Sparkle was started by a 12-year-old with a passion for creativity ✨. 
+      Our mission is to bring joy and beauty into everyday life with jewellery, stickers, and stationery 
+      that make you smile. Each product is crafted with love and designed to inspire!
+    </p>
+  </section>
+
+  <!-- Reviews -->
+  <section id="reviews" class="py-20 px-6 bg-gradient-to-r from-purple-200 via-pink-100 to-purple-100 text-center">
+    <h3 class="text-4xl font-bold text-pink-600 mb-6">What Our Customers Say</h3>
+    <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <p class="italic">"The stickers are soooo cute! I decorated my notebook and everyone loved it 💖."</p>
+        <h4 class="mt-4 font-semibold text-pink-500">- Ayesha</h4>
+      </div>
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <p class="italic">"Best jewellery set ever! Looks premium and my friends keep asking where I got it ✨."</p>
+        <h4 class="mt-4 font-semibold text-pink-500">- Ali</h4>
+      </div>
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <p class="italic">"Affordable and beautiful stationery – I feel so motivated to study now 📚."</p>
+        <h4 class="mt-4 font-semibold text-pink-500">- Sara</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-pink-600 text-white text-center py-6 mt-10">
+    <p>&copy; 2025 Sparkle. All rights reserved.</p>
+  </footer>
+</body>
+</html>
