@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - Sparkle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function placeOrder() {
+      const name = document.getElementById("name").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      if (!name || !address || !phone) {
+        alert("⚠️ Please fill in all fields.");
+        return;
+      }
+
+      fetch("https://script.google.com/macros/s/AKfycbwLI0H-pB3BPZVKFIxE0P5sI4vHL5egwXVRex8DBkGqHKYL7BQxfAj-2O2x1zX3WUl9AQ/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, address, phone, cart })
+      })
+      .then(res => res.text())
+      .then(msg => {
+        alert("✅ Thank you " + name + "! Your order has been placed.");
+        localStorage.removeItem("cart");
+        window.location.href = "index.html";
+      })
+      .catch(err => alert("❌ Error: " + err));
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const cartItems = document.getElementById("cart-items");
+      if (cart.length === 0) {
+        cartItems.innerText = "Your cart is empty.";
+      } else {
+        cartItems.innerHTML = cart.map(item => 
+          typeof item === "object" 
+          ? `${item.name} (x${item.quantity || 1}) - Rs. ${item.price || 0}` 
+          : item
+        ).join("<br>");
+      }
+    });
+  </script>
+</head>
+<body class="bg-gradient-to-b from-pink-50 to-purple-100 font-sans text-gray-800">
+  <div class="max-w-2xl mx-auto p-6 mt-20 bg-white rounded-2xl shadow-lg">
+    <h2 class="text-3xl font-bold text-pink-600 mb-6 text-center">Checkout</h2>
+    
+    <p class="mb-4"><strong>Your Cart:</strong></p>
+    <div id="cart-items" class="mb-6 text-gray-700"></div>
+
+    <form onsubmit="event.preventDefault(); placeOrder();" class="flex flex-col gap-4">
+      <input type="text" id="name" placeholder="Your Name" class="p-3 rounded-lg border border-gray-300"/>
+      <input type="text" id="address" placeholder="Your Address" class="p-3 rounded-lg border border-gray-300"/>
+      <input type="text" id="phone" placeholder="Your Phone Number" class="p-3 rounded-lg border border-gray-300"/>
+      <button type="submit" class="bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition-all duration-300">Place Order</button>
+    </form>
+  </div>
+</body>
+</html>
