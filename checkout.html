@@ -18,9 +18,9 @@
         return;
       }
 
+      // 🚀 Option 1: header removed
       fetch("https://script.google.com/macros/s/AKfycbwLI0H-pB3BPZVKFIxE0P5sI4vHL5egwXVRex8DBkGqHKYL7BQxfAj-2O2x1zX3WUl9AQ/exec", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, address, phone, cart })
       })
       .then(res => res.text())
